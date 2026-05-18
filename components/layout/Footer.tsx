@@ -1,8 +1,8 @@
 "use client"
 
 import { motion } from "motion/react"
-import { ArrowUpRight, ArrowUpRightFromSquare } from "lucide-react"
 
+import { JiggleText } from "@/components/motion/JiggleText"
 import { siteConfig } from "@/data/site-config"
 
 const SOCIAL_LABELS: Record<keyof typeof siteConfig.social, string> = {
@@ -14,124 +14,147 @@ const SOCIAL_LABELS: Record<keyof typeof siteConfig.social, string> = {
   appleMusic: "Apple Music",
 }
 
+const NAV = [
+  { href: "#hero", label: "Home" },
+  { href: "#musica", label: "Música" },
+  { href: "#sobre", label: "Sobre" },
+  { href: "#shows", label: "Shows" },
+  { href: "#apoie", label: "Apoie" },
+  { href: "#contato", label: "Contato" },
+]
+
 export function Footer() {
   const socialEntries = Object.entries(siteConfig.social).filter(
     (entry): entry is [keyof typeof siteConfig.social, string] =>
       Boolean(entry[1]),
   )
 
-  return (
-    <footer className="relative overflow-hidden border-t border-border/60 bg-background">
-      <div className="pointer-events-none absolute -bottom-1/2 left-1/2 -z-0 size-[80vw] -translate-x-1/2 rounded-full bg-primary/8 blur-[140px]" />
+  const [firstName, lastName] = siteConfig.artistName.split(" ")
 
-      <div className="relative mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 sm:py-24">
-        <motion.h2
+  return (
+    <footer className="relative overflow-hidden border-t border-border bg-background pb-40 pt-24 sm:pt-32">
+      <div className="relative mx-auto w-full max-w-7xl px-6 sm:px-10">
+        <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
-          className="font-display text-[clamp(4rem,16vw,18rem)] leading-[0.85] tracking-tight italic"
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] as const }}
         >
-          <span className="block">{siteConfig.artistName.split(" ")[0]}</span>
-          <span className="block text-primary">
-            {siteConfig.artistName.split(" ")[1]}
-          </span>
-        </motion.h2>
+          <h2 className="font-display text-[clamp(4rem,18vw,18rem)] leading-[0.82] tracking-[-0.06em]">
+            <JiggleText
+              text={firstName}
+              className="block font-bold text-foreground"
+              maxRotate={10}
+            />
+            <JiggleText
+              text={lastName}
+              className="block font-light text-foreground/30"
+              maxRotate={-9}
+              stagger={0.045}
+            />
+          </h2>
+          <p className="mt-3 flex items-center gap-3 font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
+            <span className="h-px w-8 bg-foreground/40" />
+            Dynamic Artist · {siteConfig.tagline.split(" — ").pop()}
+          </p>
+        </motion.div>
 
-        <div className="mt-16 grid gap-10 border-t border-border/60 pt-10 md:grid-cols-3">
+        <div className="mt-20 grid gap-10 border-t border-border pt-10 md:grid-cols-3">
           <div>
-            <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-              Contato
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.24em] text-muted-foreground">
+              (Explore)
             </p>
-            <a
-              href={`mailto:${siteConfig.contactEmail}`}
-              className="mt-3 inline-flex items-center gap-2 font-display text-xl italic text-foreground transition-colors hover:text-primary"
-            >
-              {siteConfig.contactEmail}
-              <ArrowUpRight className="size-4" />
-            </a>
-          </div>
-
-          <div>
-            <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-              Onde estou
-            </p>
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-              {socialEntries.map(([key, href]) => (
-                <li key={key}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group inline-flex items-center gap-1.5 font-sans text-sm text-foreground transition-colors hover:text-primary"
-                  >
-                    {SOCIAL_LABELS[key]}
-                    <ArrowUpRightFromSquare className="size-3 opacity-0 transition-opacity group-hover:opacity-100" />
-                  </a>
+            <ul className="mt-4 space-y-2">
+              {NAV.map((item) => (
+                <li key={item.href}>
+                  <FooterLink href={item.href} label={item.label} />
                 </li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p className="font-sans text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">
-              Navegação
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.24em] text-muted-foreground">
+              (Follow)
             </p>
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 font-sans text-sm">
-              <li>
-                <a
-                  href="#musica"
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  Música
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#sobre"
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  Sobre
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#shows"
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  Shows
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#apoie"
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  Apoie
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contato"
-                  className="text-foreground transition-colors hover:text-primary"
-                >
-                  Contato
-                </a>
-              </li>
+            <ul className="mt-4 space-y-2">
+              {socialEntries.map(([key, href]) => (
+                <li key={key}>
+                  <FooterLink
+                    href={href}
+                    label={SOCIAL_LABELS[key]}
+                    external
+                  />
+                </li>
+              ))}
             </ul>
+          </div>
+
+          <div>
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.24em] text-muted-foreground">
+              (Contact)
+            </p>
+            <FooterLink
+              href={`mailto:${siteConfig.contactEmail}`}
+              label={siteConfig.contactEmail}
+              className="mt-4"
+            />
+            <p className="mt-2 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+              Rio de Janeiro · BR
+            </p>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-sans text-xs uppercase tracking-[0.16em] text-muted-foreground">
+        <div className="mt-16 flex flex-col gap-3 border-t border-border pt-6 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>
             © {new Date().getFullYear()} {siteConfig.artistName}. Todos os
             direitos reservados.
           </p>
-          <p className="font-sans text-xs uppercase tracking-[0.16em] text-muted-foreground">
-            Feito com voz, violão e café
-          </p>
+          <p>Feito com voz, violão e café</p>
         </div>
       </div>
     </footer>
+  )
+}
+
+interface FooterLinkProps {
+  href: string
+  label: string
+  external?: boolean
+  className?: string
+}
+
+function FooterLink({ href, label, external, className }: FooterLinkProps) {
+  return (
+    <motion.a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      initial="rest"
+      whileHover="hover"
+      animate="rest"
+      className={`group relative inline-flex items-center font-sans text-base text-foreground ${className ?? ""}`}
+    >
+      <motion.span
+        variants={{
+          rest: { x: 0 },
+          hover: { x: 8 },
+        }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+      >
+        {label}
+      </motion.span>
+      <motion.span
+        aria-hidden
+        variants={{
+          rest: { opacity: 0, x: -6, scale: 0.8 },
+          hover: { opacity: 1, x: 0, scale: 1 },
+        }}
+        transition={{ duration: 0.3 }}
+        className="ml-2 text-accent"
+      >
+        →
+      </motion.span>
+    </motion.a>
   )
 }

@@ -1,18 +1,17 @@
 "use client"
 
 import Image from "next/image"
+import { AnimatePresence, motion } from "motion/react"
 import {
-  Heart,
   Pause,
   Play,
   Repeat,
   Shuffle,
   SkipBack,
   SkipForward,
-  Volume2,
+  X,
 } from "lucide-react"
 
-import { siteConfig } from "@/data/site-config"
 import { usePlayerStore } from "@/lib/player-store"
 import { cn, formatDuration } from "@/lib/utils"
 
@@ -21,145 +20,137 @@ export function PlayerBar() {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const progress = usePlayerStore((state) => state.progress)
   const duration = usePlayerStore((state) => state.duration)
-  const volume = usePlayerStore((state) => state.volume)
   const togglePlay = usePlayerStore((state) => state.togglePlay)
   const seek = usePlayerStore((state) => state.seek)
-  const setVolume = usePlayerStore((state) => state.setVolume)
   const playNext = usePlayerStore((state) => state.playNext)
   const playPrev = usePlayerStore((state) => state.playPrev)
+  const clearTrack = usePlayerStore((state) => state.clearTrack)
 
   if (!currentTrack) return null
 
   const elapsed = Math.floor(duration * progress)
-  const total = Math.floor(duration)
 
   return (
-    <div
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card/95 shadow-[0_-8px_32px_rgba(0,0,0,0.35)] backdrop-blur-md"
-      role="region"
-      aria-label="Player de musica"
-    >
-      <div
-        className="group relative h-1 w-full cursor-pointer bg-muted"
-        onClick={(event) => {
-          const rect = event.currentTarget.getBoundingClientRect()
-          const ratio = (event.clientX - rect.left) / rect.width
-          seek(Math.min(1, Math.max(0, ratio)))
-        }}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowRight") seek(Math.min(1, progress + 0.05))
-          if (event.key === "ArrowLeft") seek(Math.max(0, progress - 0.05))
-        }}
-        role="slider"
-        aria-label="Progresso da faixa"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={Math.round(progress * 100)}
-        tabIndex={0}
+    <AnimatePresence>
+      <motion.div
+        key="player"
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 30, opacity: 0 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }}
+        className="pointer-events-none fixed inset-x-0 bottom-20 z-40 flex justify-center px-4 sm:bottom-24"
       >
         <div
-          className="h-full bg-primary transition-[width] duration-150 ease-linear"
-          style={{ width: `${progress * 100}%` }}
-        />
-      </div>
-
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center gap-3 px-4 sm:gap-6 sm:px-6">
-        <div className="flex min-w-0 flex-1 items-center gap-3">
-          <div className="relative size-12 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted">
-            <Image
-              src={currentTrack.coverArt}
-              alt={`Capa de ${currentTrack.title}`}
-              fill
-              className="object-cover"
-              sizes="48px"
-            />
+          className="pointer-events-auto flex w-full max-w-xl items-center gap-3 rounded-full border border-border bg-background/90 p-2 shadow-[0_22px_60px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+          role="region"
+          aria-label="Player de música"
+        >
+          <div className="flex min-w-0 flex-1 items-center gap-3 pl-1">
+            <div className="relative size-9 shrink-0 overflow-hidden rounded-full bg-muted">
+              <Image
+                src={currentTrack.coverArt}
+                alt={currentTrack.title}
+                fill
+                className="object-cover"
+                sizes="36px"
+              />
+              <motion.div
+                animate={isPlaying ? { rotate: 360 } : { rotate: 0 }}
+                transition={{
+                  duration: 12,
+                  repeat: isPlaying ? Infinity : 0,
+                  ease: "linear",
+                }}
+                className="absolute inset-2 rounded-full border border-white/20"
+                aria-hidden
+              />
+            </div>
+            <div className="min-w-0 hidden sm:block">
+              <p className="truncate font-sans text-xs font-medium text-foreground">
+                {currentTrack.title}
+              </p>
+              <p className="truncate font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+                {formatDuration(elapsed)} / {formatDuration(duration)}
+              </p>
+            </div>
           </div>
-          <div className="min-w-0">
-            <p className="truncate font-sans text-sm font-medium text-foreground">
-              {currentTrack.title}
-            </p>
-            <p className="truncate font-sans text-xs text-muted-foreground">
-              {siteConfig.artistName}
-            </p>
-          </div>
-          <button
-            type="button"
-            aria-label="Favoritar faixa"
-            className="hidden shrink-0 text-muted-foreground transition-colors hover:text-primary sm:inline-flex"
-          >
-            <Heart className="size-4" />
-          </button>
-        </div>
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <button
-            type="button"
-            aria-label="Aleatorio"
-            className="hidden p-2 text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
-          >
-            <Shuffle className="size-4" />
-          </button>
-          <button
-            type="button"
-            aria-label="Faixa anterior"
-            onClick={playPrev}
-            className="p-2 text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <SkipBack className="size-4" />
-          </button>
-          <button
-            type="button"
-            aria-label={isPlaying ? "Pausar" : "Tocar"}
-            onClick={togglePlay}
-            className="flex size-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105 active:scale-95"
-          >
-            {isPlaying ? (
-              <Pause className="size-4 fill-current" />
-            ) : (
-              <Play className="size-4 fill-current" />
-            )}
-          </button>
-          <button
-            type="button"
-            aria-label="Proxima faixa"
-            onClick={playNext}
-            className="p-2 text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <SkipForward className="size-4" />
-          </button>
-          <button
-            type="button"
-            aria-label="Repetir"
-            className="hidden p-2 text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
-          >
-            <Repeat className="size-4" />
-          </button>
-        </div>
-
-        <div className="flex flex-1 items-center justify-end gap-2 sm:gap-3">
-          <span className="hidden font-sans text-xs tabular-nums text-muted-foreground sm:inline">
-            {formatDuration(elapsed)} / {formatDuration(total)}
-          </span>
-          <div className="flex items-center gap-2">
-            <Volume2 className="size-4 shrink-0 text-muted-foreground" />
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={volume * 100}
-              onChange={(event) =>
-                setVolume(Number(event.target.value) / 100)
-              }
-              aria-label="Volume"
+          <div className="flex items-center">
+            <button
+              type="button"
+              aria-label="Aleatório"
+              className="hidden p-2 text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            >
+              <Shuffle className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Faixa anterior"
+              onClick={playPrev}
+              className="p-2 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <SkipBack className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label={isPlaying ? "Pausar" : "Tocar"}
+              onClick={togglePlay}
               className={cn(
-                "h-1 w-16 cursor-pointer appearance-none rounded-full bg-muted sm:w-24",
-                "[&::-webkit-slider-thumb]:size-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
-                "[&::-moz-range-thumb]:size-3 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-primary",
+                "mx-1 inline-flex size-9 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-105 active:scale-95",
               )}
+            >
+              {isPlaying ? (
+                <Pause className="size-3.5 fill-current" />
+              ) : (
+                <Play className="size-3.5 translate-x-[1px] fill-current" />
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label="Próxima faixa"
+              onClick={playNext}
+              className="p-2 text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <SkipForward className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Repetir"
+              className="hidden p-2 text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            >
+              <Repeat className="size-3.5" />
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={clearTrack}
+            aria-label="Fechar player"
+            className="ml-1 inline-flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-card hover:text-foreground"
+          >
+            <X className="size-3.5" />
+          </button>
+        </div>
+
+        <div
+          className="pointer-events-auto absolute inset-x-4 bottom-0 sm:inset-x-auto sm:left-1/2 sm:w-full sm:max-w-xl sm:-translate-x-1/2"
+          aria-hidden
+        >
+          <div
+            className="mx-2 h-[2px] cursor-pointer overflow-hidden rounded-full bg-foreground/10"
+            onClick={(event) => {
+              const rect = event.currentTarget.getBoundingClientRect()
+              const ratio = (event.clientX - rect.left) / rect.width
+              seek(Math.min(1, Math.max(0, ratio)))
+            }}
+          >
+            <div
+              className="h-full bg-accent transition-[width] duration-150 ease-linear"
+              style={{ width: `${progress * 100}%` }}
             />
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   )
 }

@@ -39,8 +39,11 @@ export function NewsletterForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center"
+      className="flex flex-col gap-3"
     >
+      <label className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">
+        Email
+      </label>
       <Input
         type="email"
         name="email"
@@ -50,11 +53,15 @@ export function NewsletterForm() {
         onChange={(event) => setEmail(event.target.value)}
         disabled={isSubmitting}
         required
-        className="h-10 sm:max-w-sm"
+        className="h-11 rounded-md border-border bg-background"
         aria-label="Email para newsletter"
       />
-      <Button type="submit" disabled={isSubmitting} className="h-10 shrink-0">
-        {isSubmitting ? "Enviando..." : "Quero receber novidades"}
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-2 h-11 w-full shrink-0 rounded-full bg-foreground font-mono text-[0.65rem] uppercase tracking-[0.18em] text-background hover:bg-foreground/90 sm:w-fit sm:px-6"
+      >
+        {isSubmitting ? "Enviando..." : "Entrar na lista"}
       </Button>
     </form>
   )

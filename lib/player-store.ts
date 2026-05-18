@@ -29,6 +29,7 @@ interface PlayerState {
   setVolume: (volume: number) => void
   playNext: () => void
   playPrev: () => void
+  clearTrack: () => void
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -104,5 +105,17 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     }
     const prev = queue[queueIndex - 1]
     if (prev) get().loadTrack(prev, queue)
+  },
+
+  clearTrack: () => {
+    howlerEngine.unload()
+    set({
+      currentTrack: null,
+      queue: [],
+      queueIndex: -1,
+      isPlaying: false,
+      progress: 0,
+      duration: 0,
+    })
   },
 }))

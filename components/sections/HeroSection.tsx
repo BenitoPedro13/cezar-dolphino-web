@@ -1,195 +1,175 @@
 "use client"
 
-import { motion, useScroll, useTransform, type Variants } from "motion/react"
-import { ArrowDown, Globe, Music2, Play } from "lucide-react"
-import { useRef } from "react"
+import { motion } from "motion/react"
+import { ArrowDown } from "lucide-react"
 
-import { MagneticButton } from "@/components/motion/MagneticButton"
-import { ParallaxBackground } from "@/components/motion/ParallaxBackground"
+import { GridBackground } from "@/components/layout/GridBackground"
+import { Polaroid } from "@/components/layout/Polaroid"
+import { JiggleText } from "@/components/motion/JiggleText"
+import { Squiggle } from "@/components/motion/Squiggle"
 import { siteConfig } from "@/data/site-config"
-import { cn } from "@/lib/utils"
 
-const EASE = [0.22, 1, 0.36, 1] as [number, number, number, number]
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
-const SOCIAL_ITEMS = [
-  { key: "soundcloud" as const, label: "SoundCloud", icon: Music2 },
-  { key: "instagram" as const, label: "Instagram", icon: Globe },
-  { key: "youtube" as const, label: "YouTube", icon: Play },
-  { key: "spotify" as const, label: "Spotify", icon: Music2 },
-  { key: "tiktok" as const, label: "TikTok", icon: Globe },
-]
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 80 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: EASE },
-  },
-}
-
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: "120%" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1.1, ease: EASE },
-  },
-}
+const SCROLL_TEXT = "SCROLL TO EXPLORE · SCROLL TO EXPLORE · "
 
 export function HeroSection() {
-  const ref = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  })
-
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"])
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0])
-
-  const socialLinks = SOCIAL_ITEMS.flatMap((item) => {
-    const href = siteConfig.social[item.key]
-    if (!href) return []
-    return [{ ...item, href }]
-  })
-
   const [firstName, lastName] = siteConfig.artistName.split(" ")
 
   return (
     <section
       id="hero"
-      ref={ref}
-      className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-background"
+      className="relative isolate flex min-h-svh w-full items-center justify-center overflow-hidden bg-background"
     >
-      <ParallaxBackground />
+      <GridBackground />
 
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(rgba(240,230,211,0.06)_1px,transparent_1px)] bg-[size:3px_3px] opacity-50" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-background to-transparent" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-30"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(255,255,255,0.04) 70%, transparent 90%), repeating-radial-gradient(circle at center, transparent 0, transparent 120px, rgba(255,255,255,0.025) 120px, rgba(255,255,255,0.025) 122px)",
+        }}
+      />
 
       <motion.div
-        style={{ y: textY, opacity: textOpacity }}
-        className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-24 pt-32 sm:px-10 sm:pt-40"
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 0.9, ease: EASE }}
+        className="absolute left-4 top-24 z-10 w-32 sm:left-10 sm:top-32 sm:w-40 lg:w-48"
       >
+        <Polaroid
+          src={siteConfig.portraitImage}
+          alt="Cezar Dolphino ao vivo"
+          variant="vertical"
+          caption="Empowering Listeners"
+          withSquiggle
+          squiggleDelay={1.6}
+          delay={0.9}
+          rotate={-4}
+        />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1, delay: 1.2, ease: EASE }}
+        className="absolute right-4 top-1/3 z-10 hidden w-44 sm:right-10 sm:block sm:w-52 lg:w-64"
+      >
+        <Polaroid
+          src={siteConfig.portraitImage}
+          alt="Cezar Dolphino retrato"
+          variant="wide"
+          caption="Captivating Audiences"
+          delay={1.2}
+          rotate={3}
+        />
+      </motion.div>
+
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 px-6 py-32 text-center sm:px-10">
+        <h1 className="font-display font-bold leading-[0.85] tracking-[-0.06em] text-foreground">
+          <span className="block overflow-visible">
+            <JiggleText
+              text={firstName}
+              maxRotate={10}
+              maxY={10}
+              stagger={0.05}
+              className="block text-[clamp(4rem,18vw,18rem)] font-bold leading-[0.85]"
+            />
+          </span>
+          <span className="relative -mt-2 block overflow-visible">
+            <JiggleText
+              text={lastName}
+              maxRotate={-9}
+              maxY={8}
+              stagger={0.045}
+              className="block text-[clamp(4rem,18vw,18rem)] font-light leading-[0.85]"
+            />
+            <sup className="absolute -right-6 top-2 font-mono text-[clamp(0.75rem,1.2vw,1rem)] font-normal text-foreground/60 sm:-right-10">
+              ®
+            </sup>
+          </span>
+        </h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.6, duration: 0.8 }}
+          className="mt-2 font-sans text-sm uppercase tracking-[0.32em] text-muted-foreground sm:text-base"
+        >
+          Dynamic · {siteConfig.tagline.split(" — ")[0]}
+        </motion.p>
+
         <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={containerVariants}
-          className="flex flex-col gap-6"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.9, duration: 0.8 }}
+          className="relative mt-12 flex size-32 items-center justify-center sm:size-40"
         >
           <motion.div
-            variants={itemVariants}
-            className="flex items-center gap-3 font-sans text-[0.7rem] uppercase tracking-[0.24em] text-muted-foreground"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0"
           >
-            <span className="size-1.5 animate-pulse rounded-full bg-primary" />
-            Rio de Janeiro · MMXXVI
+            <svg viewBox="0 0 200 200" className="size-full">
+              <defs>
+                <path
+                  id="scroll-circle"
+                  d="M 100,100 m -75,0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
+                />
+              </defs>
+              <text
+                fontSize="11"
+                fontFamily="var(--font-mono)"
+                letterSpacing="6"
+                className="fill-foreground/85"
+              >
+                <textPath href="#scroll-circle">
+                  {SCROLL_TEXT.repeat(2)}
+                </textPath>
+              </text>
+            </svg>
           </motion.div>
 
-          <h1 className="font-display leading-[0.85] tracking-tight">
-            <span className="block overflow-hidden">
-              <motion.span
-                variants={wordVariants}
-                className="block text-[clamp(4rem,15vw,16rem)] font-medium italic text-foreground"
-              >
-                {firstName}
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden">
-              <motion.span
-                variants={wordVariants}
-                className="block translate-x-[5%] text-[clamp(4rem,15vw,16rem)] font-light text-primary"
-              >
-                {lastName}
-              </motion.span>
-            </span>
-          </h1>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+          <motion.a
+            href="#musica"
+            aria-label="Rolar para descobrir"
+            data-cursor-label="Scroll"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative flex size-12 items-center justify-center rounded-full border border-border bg-card/40 backdrop-blur transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
           >
-            <p className="max-w-md font-serif text-base italic leading-relaxed text-foreground/85 sm:text-lg">
-              {siteConfig.shortBio}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <MagneticButton
-                href="#musica"
-                className="group h-14 min-w-[180px] rounded-full bg-primary px-7 font-sans text-sm font-medium uppercase tracking-[0.16em] text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                <span className="flex items-center gap-2">
-                  <Play className="size-4 fill-current" />
-                  Ouça agora
-                </span>
-              </MagneticButton>
-
-              <MagneticButton
-                href="#shows"
-                strength={0.18}
-                className="h-14 min-w-[180px] rounded-full border border-border bg-card/40 px-7 font-sans text-sm uppercase tracking-[0.16em] text-foreground backdrop-blur transition-colors hover:border-primary hover:text-primary"
-              >
-                Próximos shows
-              </MagneticButton>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="mt-12 flex flex-col gap-6 border-t border-border/60 pt-8 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div className="flex items-center gap-3">
-              {socialLinks.map((item, index) => {
-                const Icon = item.icon
-                return (
-                  <motion.a
-                    key={item.label}
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={item.label}
-                    whileHover={{ y: -4, scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                    className={cn(
-                      "group inline-flex size-11 items-center justify-center rounded-full border border-border bg-card/40 text-muted-foreground transition-colors hover:border-primary hover:text-primary",
-                      index === 0 && "ml-0",
-                    )}
-                  >
-                    <Icon className="size-4" />
-                  </motion.a>
-                )
-              })}
-            </div>
-
-            <a
-              href="#musica"
-              className="group inline-flex items-center gap-3 font-sans text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+            <motion.span
+              animate={{ y: [-3, 3, -3] }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
             >
-              Role para descobrir
-              <span className="relative flex size-9 items-center justify-center overflow-hidden rounded-full border border-border bg-card/40 transition-colors group-hover:border-primary group-hover:text-primary">
-                <motion.span
-                  animate={{ y: [0, 18, -18, 0] }}
-                  transition={{
-                    duration: 1.8,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <ArrowDown className="size-3.5" />
-                </motion.span>
-              </span>
-            </a>
-          </motion.div>
+              <ArrowDown className="size-4" />
+            </motion.span>
+          </motion.a>
         </motion.div>
-      </motion.div>
+      </div>
+
+      <Squiggle
+        delay={2.4}
+        className="absolute right-[8%] top-[55%] hidden size-24 text-foreground/50 lg:block"
+      />
+
+      <div className="absolute bottom-24 left-6 right-6 flex items-end justify-between font-mono text-[0.6rem] uppercase tracking-[0.24em] text-muted-foreground sm:left-10 sm:right-10">
+        <span>
+          (Voz · Violão)
+          <br />
+          <span className="text-foreground/70">Rio de Janeiro</span>
+        </span>
+        <span className="hidden text-right sm:block">
+          MMXXVI
+          <br />
+          <span className="text-foreground/70">Cinema Bedroom</span>
+        </span>
+      </div>
     </section>
   )
 }

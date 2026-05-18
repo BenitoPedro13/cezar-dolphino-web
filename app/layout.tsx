@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Lora, Raleway } from "next/font/google"
+import { Hanken_Grotesk, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 import { PlausibleAnalytics } from "@/components/analytics/Plausible"
@@ -12,22 +12,16 @@ import { cn } from "@/lib/utils"
 export const metadata = siteMetadata
 export const viewport = siteViewport
 
-const cormorant = Cormorant_Garamond({
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  variable: "--font-cormorant",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-hanken",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 })
 
-const lora = Lora({
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-lora",
-  weight: ["400", "500", "600", "700"],
-})
-
-const raleway = Raleway({
-  subsets: ["latin"],
-  variable: "--font-raleway",
-  weight: ["300", "400", "500", "600"],
+  variable: "--font-mono",
+  weight: ["400", "500", "600"],
 })
 
 export default function RootLayout({
@@ -39,12 +33,7 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       suppressHydrationWarning
-      className={cn(
-        "antialiased",
-        cormorant.variable,
-        lora.variable,
-        raleway.variable,
-      )}
+      className={cn("antialiased", hanken.variable, mono.variable)}
     >
       <body>
         <SkipLink />

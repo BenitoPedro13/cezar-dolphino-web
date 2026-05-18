@@ -2,89 +2,111 @@
 
 import { motion } from "motion/react"
 
+import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal"
-import { SectionLabel } from "@/components/motion/SectionLabel"
-import { TiltCard } from "@/components/motion/TiltCard"
+import { Squiggle } from "@/components/motion/Squiggle"
 import { influences, influenceCategories } from "@/data/influences"
 import type { Influence } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
-const TILE_GRADIENTS: Record<Influence["category"], string> = {
-  musica: "from-primary/30 via-card to-background",
-  cinema: "from-secondary/30 via-card to-background",
-  literatura: "from-muted/80 via-card to-background",
+const CATEGORY_TONES: Record<Influence["category"], string> = {
+  musica: "from-accent/20 via-card to-background",
+  cinema: "from-foreground/[0.05] via-card to-background",
+  literatura: "from-foreground/[0.03] via-card to-background",
 }
 
-function InfluenceTile({ item }: { item: Influence }) {
+function InfluenceTile({ item, index }: { item: Influence; index: number }) {
   const categoryLabel = influenceCategories.find(
     (c) => c.key === item.category,
   )?.label
 
   return (
     <StaggerItem>
-      <TiltCard className="h-full">
-        <article
-          className={cn(
-            "group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-2xl border border-border/60 p-5",
-            "bg-gradient-to-br transition-all duration-500 hover:border-primary/40 hover:shadow-[0_20px_60px_-20px_rgba(212,136,42,0.4)]",
-            TILE_GRADIENTS[item.category],
+      <motion.article
+        whileHover={{ y: -6 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+        className={cn(
+          "group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-md border border-border bg-gradient-to-br p-5 transition-colors hover:border-foreground/40",
+          CATEGORY_TONES[item.category],
+        )}
+      >
+        <div className="flex items-start justify-between">
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">
+            ({(index + 1).toString().padStart(2, "0")})
+          </span>
+          <span className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-accent">
+            {categoryLabel}
+          </span>
+        </div>
+
+        <div>
+          <h3 className="font-display text-2xl font-medium leading-[0.95] tracking-[-0.02em] text-foreground sm:text-3xl">
+            {item.name}
+          </h3>
+          {item.note && (
+            <p className="mt-3 font-sans text-xs leading-relaxed text-muted-foreground">
+              {item.note}
+            </p>
           )}
-        >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(rgba(240,230,211,0.05)_1px,transparent_1px)] bg-[size:3px_3px] opacity-30" />
-
-          <div className="relative flex items-center justify-between font-sans text-[0.6rem] uppercase tracking-[0.2em] text-primary/90">
-            <span>{categoryLabel}</span>
-            <motion.span
-              initial={{ rotate: 0 }}
-              whileHover={{ rotate: 45 }}
-              className="inline-flex size-7 items-center justify-center rounded-full border border-border/60 text-foreground/60 transition-colors group-hover:border-primary group-hover:text-primary"
-            >
-              ↗
-            </motion.span>
-          </div>
-
-          <div className="relative">
-            <h3 className="font-display text-2xl italic leading-tight text-foreground sm:text-3xl">
-              {item.name}
-            </h3>
-            {item.note && (
-              <p className="mt-3 font-sans text-xs leading-relaxed text-muted-foreground">
-                {item.note}
-              </p>
-            )}
-          </div>
-        </article>
-      </TiltCard>
+        </div>
+      </motion.article>
     </StaggerItem>
   )
 }
 
 export function InfluencesSection() {
   return (
-    <section className="relative overflow-hidden border-b border-border/60 bg-background">
-      <div className="pointer-events-none absolute right-0 top-1/3 -z-0 size-[35vw] rounded-full bg-primary/8 blur-[100px]" />
+    <section className="relative overflow-hidden bg-background">
+      <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
+        <div className="grid items-end gap-x-10 gap-y-6 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <Reveal>
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
+                (Meet
+                <br />
+                the references)
+              </p>
+            </Reveal>
+          </div>
 
-      <div className="relative mx-auto w-full max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
-        <SectionLabel index="03" label="Referências" />
-
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <Reveal>
-            <h2 className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] tracking-tight">
-              O que mora
-              <span className="block italic text-primary">no quarto.</span>
+          <div className="lg:col-span-9">
+            <h2 className="flex flex-wrap items-baseline gap-x-6 gap-y-2 font-display text-[clamp(3rem,11vw,9rem)] leading-[0.85] tracking-[-0.05em]">
+              <JiggleText
+                text="Our"
+                className="font-bold text-foreground"
+                maxRotate={9}
+              />
+              <span className="relative inline-block">
+                <JiggleText
+                  text="Mood"
+                  className="font-light text-foreground/40"
+                  maxRotate={-8}
+                />
+                <Squiggle
+                  delay={0.6}
+                  className="pointer-events-none absolute -right-12 -top-8 size-24 text-foreground/30"
+                />
+              </span>
+              <JiggleText
+                text="Board"
+                className="font-bold text-foreground"
+                maxRotate={8}
+                stagger={0.045}
+              />
             </h2>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="max-w-md font-serif text-base italic text-muted-foreground sm:text-lg">
-              Um moodboard do que alimenta o som e o olhar — artistas, cinema e
-              literatura que habitam o quarto.
-            </p>
-          </Reveal>
+          </div>
         </div>
 
-        <Stagger className="mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-5">
-          {influences.map((item) => (
-            <InfluenceTile key={item.id} item={item} />
+        <Reveal delay={0.2}>
+          <p className="mt-10 max-w-md font-sans text-base text-muted-foreground">
+            Um moodboard do que alimenta o som e o olhar — artistas, cinema e
+            literatura que habitam o quarto.
+          </p>
+        </Reveal>
+
+        <Stagger className="mt-16 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {influences.map((item, i) => (
+            <InfluenceTile key={item.id} item={item} index={i} />
           ))}
         </Stagger>
       </div>

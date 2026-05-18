@@ -5,13 +5,6 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
   Field,
   FieldError,
   FieldGroup,
@@ -72,16 +65,17 @@ export function ContactForm() {
   })
 
   return (
-    <Card className="mt-8 border-border/80 bg-card/60">
-      <CardHeader>
-        <CardTitle className="font-display text-2xl italic">
-          Envie uma mensagem
-        </CardTitle>
-        <CardDescription>
-          Para shows, parcerias e imprensa. Campos marcados são obrigatórios.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div>
+      <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground">
+        (01) Send a message
+      </p>
+      <h3 className="mt-3 font-display text-2xl font-medium leading-[0.95] tracking-[-0.02em] text-foreground sm:text-3xl">
+        Envie uma mensagem
+      </h3>
+      <p className="mt-2 font-sans text-sm text-muted-foreground">
+        Para shows, parcerias e imprensa. Campos marcados são obrigatórios.
+      </p>
+      <div className="mt-6">
         <form
           id="contact-form"
           onSubmit={(event) => {
@@ -211,11 +205,12 @@ export function ContactForm() {
             </form.Field>
           </FieldGroup>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <Button
               type="submit"
               form="contact-form"
               disabled={form.state.isSubmitting}
+              className="h-11 rounded-full bg-foreground px-6 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-background hover:bg-foreground/90"
             >
               {form.state.isSubmitting ? "Enviando..." : "Enviar mensagem"}
             </Button>
@@ -224,12 +219,13 @@ export function ContactForm() {
               variant="outline"
               disabled={form.state.isSubmitting}
               onClick={() => form.reset()}
+              className="h-11 rounded-full border-border bg-transparent px-6 font-mono text-[0.65rem] uppercase tracking-[0.18em]"
             >
               Limpar
             </Button>
           </div>
         </form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
