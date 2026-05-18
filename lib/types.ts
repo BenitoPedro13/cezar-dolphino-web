@@ -9,6 +9,7 @@ export interface Track {
   audioSrc: string
   featured?: boolean
   streamingLinks?: {
+    soundcloud?: string
     spotify?: string
     youtube?: string
     apple?: string
@@ -36,6 +37,7 @@ export interface SiteConfig {
   kofiUsername: string
   contactEmail: string
   social: {
+    soundcloud?: string
     instagram?: string
     youtube?: string
     spotify?: string

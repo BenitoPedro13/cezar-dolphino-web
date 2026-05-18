@@ -1,6 +1,7 @@
 import { create } from "zustand"
 
 import { howlerEngine } from "@/lib/howler-engine"
+import { hasLocalAudio } from "@/lib/soundcloud"
 import type { Track } from "@/lib/types"
 
 const VOLUME_STORAGE_KEY = "cezar-player-volume"
@@ -53,13 +54,19 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
       isPlaying: false,
     })
 
-    howlerEngine.load(track.audioSrc, () => {
-      get().playNext()
-    })
+    if (hasLocalAudio(track)) {
+      howlerEngine.load(track.audioSrc, () => {
+        get().playNext()
+      })
+    } else {
+      howlerEngine.unload()
+    }
   },
 
   togglePlay: () => {
-    if (!get().currentTrack) return
+    const { currentTrack } = get()
+    if (!currentTrack) return
+    if (!hasLocalAudio(currentTrack)) return
     howlerEngine.togglePlay()
   },
 

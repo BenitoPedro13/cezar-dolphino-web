@@ -1,41 +1,24 @@
 import type { Track } from "@/lib/types"
 
+/**
+ * Catalogo sincronizado com https://soundcloud.com/cezardolphino
+ * (1 faixa publica no momento). Para novas faixas: publique no SC e rode
+ * `pnpm sync:soundcloud`, ou adicione manualmente aqui.
+ */
 export const tracks: Track[] = [
   {
-    id: "noturno",
-    title: "Noturno",
-    album: "Sessão ao Vivo",
+    id: "colors-black-pumas-dolphino-cover",
+    title: "Colors (Black Pumas) — Dolphino (cover)",
     year: 2024,
-    duration: 198,
-    category: "ao-vivo",
-    featured: true,
-    coverArt: "/images/covers/noturno.jpg",
-    audioSrc: "/audio/noturno.mp3",
-    streamingLinks: {
-      spotify: "https://open.spotify.com/track/noturno",
-      youtube: "https://youtube.com/watch?v=noturno",
-    },
-  },
-  {
-    id: "quarto-escuro",
-    title: "Quarto Escuro",
-    year: 2023,
-    duration: 214,
-    category: "original",
-    coverArt: "/images/covers/quarto-escuro.jpg",
-    audioSrc: "/audio/quarto-escuro.mp3",
-    streamingLinks: {
-      spotify: "https://open.spotify.com/track/quarto-escuro",
-    },
-  },
-  {
-    id: "coracao-de-mel",
-    title: "Coração de Mel",
-    year: 2022,
-    duration: 186,
+    duration: 308,
     category: "cover",
-    coverArt: "/images/covers/coracao-de-mel.jpg",
-    audioSrc: "/audio/coracao-de-mel.mp3",
+    featured: true,
+    coverArt: "/images/hero-poster.svg",
+    audioSrc: "/audio/colors-cover.mp3",
+    streamingLinks: {
+      soundcloud:
+        "https://soundcloud.com/cezardolphino/colors-black-pumas-dolphino-cover",
+    },
   },
 ]
 

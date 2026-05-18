@@ -1,6 +1,7 @@
 import { siteConfig } from "@/data/site-config"
 
 const SOCIAL_LABELS: Record<keyof typeof siteConfig.social, string> = {
+  soundcloud: "SoundCloud",
   instagram: "Instagram",
   youtube: "YouTube",
   spotify: "Spotify",

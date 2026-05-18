@@ -11,6 +11,7 @@ export const siteConfig: SiteConfig = {
   kofiUsername: "cezardolphino",
   contactEmail: "contato@cezardolphino.com",
   social: {
+    soundcloud: "https://soundcloud.com/cezardolphino",
     instagram: "https://instagram.com/cezardolphino",
     youtube: "https://youtube.com/@cezardolphino",
     spotify: "https://open.spotify.com/artist/cezardolphino",

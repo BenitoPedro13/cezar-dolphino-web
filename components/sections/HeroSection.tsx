@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const SOCIAL_ITEMS = [
+  { key: "soundcloud" as const, label: "SoundCloud", icon: Music2 },
   { key: "instagram" as const, label: "Instagram", icon: Globe },
   { key: "youtube" as const, label: "YouTube", icon: Play },
   { key: "spotify" as const, label: "Spotify", icon: Music2 },

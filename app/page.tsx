@@ -1,3 +1,4 @@
+import { AppChrome } from "@/components/layout/AppChrome"
 import { Footer } from "@/components/layout/Footer"
 import { Header } from "@/components/layout/Header"
 import { AboutSection } from "@/components/sections/AboutSection"
@@ -11,7 +12,7 @@ import { SupportSection } from "@/components/sections/SupportSection"
 
 export default function Page() {
   return (
-    <>
+    <AppChrome>
       <Header />
       <main className="min-h-svh bg-background text-foreground pt-16">
         <HeroSection />
@@ -24,6 +25,6 @@ export default function Page() {
         <ContactSection />
       </main>
       <Footer />
-    </>
+    </AppChrome>
   )
 }
