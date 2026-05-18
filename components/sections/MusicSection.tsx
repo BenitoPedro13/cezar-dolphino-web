@@ -1,3 +1,5 @@
+import { PlayerControls } from "@/components/player/PlayerControls"
+import { TrackPlayButton } from "@/components/player/TrackPlayButton"
 import { featuredTrack, tracks } from "@/data/tracks"
 import { formatDuration } from "@/lib/utils"
 
@@ -28,12 +30,16 @@ export function MusicSection() {
                   </span>
                 )}
               </span>
-              <span className="text-muted-foreground">
-                {formatDuration(track.duration)}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-muted-foreground">
+                  {formatDuration(track.duration)}
+                </span>
+                <TrackPlayButton track={track} />
+              </div>
             </li>
           ))}
         </ul>
+        <PlayerControls />
       </div>
     </section>
   )
