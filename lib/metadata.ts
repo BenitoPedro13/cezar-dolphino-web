@@ -5,6 +5,14 @@ import { siteUrl } from "@/lib/site"
 
 const titleDefault = `${siteConfig.artistName} — ${siteConfig.tagline}`
 
+const ogImage = {
+  url: "/images/ogimage.jpg",
+  width: 500,
+  height: 500,
+  alt: titleDefault,
+  type: "image/jpeg",
+}
+
 export const siteMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -31,11 +39,13 @@ export const siteMetadata: Metadata = {
     siteName: siteConfig.artistName,
     title: titleDefault,
     description: siteConfig.shortBio,
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: titleDefault,
     description: siteConfig.shortBio,
+    images: [ogImage.url],
   },
   robots: {
     index: true,
