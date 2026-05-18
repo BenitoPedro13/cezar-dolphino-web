@@ -14,7 +14,9 @@ import {
 import { cn } from "@/lib/utils"
 
 export function SupportSection() {
-  const kofiUrl = `https://ko-fi.com/${siteConfig.kofiUsername}`
+  const kofiUsername =
+    process.env.NEXT_PUBLIC_KOFI_USERNAME ?? siteConfig.kofiUsername
+  const kofiUrl = `https://ko-fi.com/${kofiUsername}`
 
   return (
     <section

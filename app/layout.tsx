@@ -1,9 +1,16 @@
 import { Cormorant_Garamond, Lora, Raleway } from "next/font/google"
 
 import "./globals.css"
+import { PlausibleAnalytics } from "@/components/analytics/Plausible"
+import { SkipLink } from "@/components/layout/SkipLink"
+import { JsonLd } from "@/components/seo/JsonLd"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import { siteMetadata, siteViewport } from "@/lib/metadata"
 import { cn } from "@/lib/utils"
+
+export const metadata = siteMetadata
+export const viewport = siteViewport
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -40,6 +47,9 @@ export default function RootLayout({
       )}
     >
       <body>
+        <SkipLink />
+        <JsonLd />
+        <PlausibleAnalytics />
         <ThemeProvider>
           {children}
           <Toaster position="bottom-right" richColors closeButton />

@@ -68,7 +68,7 @@ export function PlayerBar() {
           <div className="relative size-12 shrink-0 overflow-hidden rounded-md border border-border/80 bg-muted">
             <Image
               src={currentTrack.coverArt}
-              alt=""
+              alt={`Capa de ${currentTrack.title}`}
               fill
               className="object-cover"
               sizes="48px"

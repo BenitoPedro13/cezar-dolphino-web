@@ -1,7 +1,7 @@
 import { siteConfig } from "@/data/site-config"
 
 const NAV_ITEMS = [
-  { href: "#musica", label: "Musica" },
+  { href: "#musica", label: "Música" },
   { href: "#sobre", label: "Sobre" },
   { href: "#shows", label: "Shows" },
   { href: "#apoie", label: "Apoie" },

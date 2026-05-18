@@ -95,4 +95,12 @@
   html {
     @apply scroll-smooth;
   }
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [role="slider"]:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
 }
