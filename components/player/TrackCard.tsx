@@ -1,7 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { Play } from "lucide-react"
+import { motion } from "motion/react"
+import { Pause, Play } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { usePlayerStore } from "@/lib/player-store"
@@ -27,47 +28,92 @@ export function TrackCard({ track, queue, featured = false }: TrackCardProps) {
   const isActive = currentTrack?.id === track.id && isPlaying
 
   return (
-    <button
+    <motion.button
       type="button"
       onClick={() => loadTrack(track, queue)}
+      whileHover="hover"
+      initial="idle"
       className={cn(
-        "group relative w-full overflow-hidden rounded-lg border border-border/80 bg-card text-left transition-colors hover:border-primary/50",
-        featured && "sm:col-span-2",
+        "group relative w-full overflow-hidden rounded-2xl border border-border/70 bg-card/60 text-left backdrop-blur transition-colors hover:border-primary/60",
+        featured && "sm:col-span-2 lg:col-span-3",
         isActive && "border-primary/60 ring-1 ring-primary/30",
       )}
     >
       <div
         className={cn(
-          "relative aspect-square w-full bg-muted",
-          featured && "sm:aspect-[2/1]",
+          "relative w-full overflow-hidden bg-muted",
+          featured ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-square",
         )}
       >
-        <Image
-          src={track.coverArt}
-          alt={track.title}
-          fill
-          className="object-cover opacity-90 transition-opacity group-hover:opacity-75"
-          sizes={featured ? "(max-width: 640px) 100vw, 50vw" : "240px"}
-        />
-        <div className="absolute inset-0 flex items-center justify-center bg-background/20 opacity-0 transition-opacity group-hover:opacity-100">
-          <span className="flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg">
-            <Play className="size-5 fill-current" />
-          </span>
-        </div>
-      </div>
-      <div className="space-y-2 p-4">
-        <div className="flex items-start justify-between gap-2">
-          <p className="font-display text-lg leading-tight text-foreground">
+        <motion.div
+          variants={{
+            idle: { scale: 1.02 },
+            hover: { scale: 1.08 },
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={track.coverArt}
+            alt={track.title}
+            fill
+            className="object-cover"
+            sizes={
+              featured ? "(max-width: 1024px) 100vw, 70vw" : "(max-width: 640px) 100vw, 360px"
+            }
+          />
+        </motion.div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/30 to-transparent" />
+
+        <motion.div
+          variants={{
+            idle: { y: 12, opacity: 0 },
+            hover: { y: 0, opacity: 1 },
+          }}
+          transition={{ duration: 0.3 }}
+          className={cn(
+            "absolute right-4 top-4 flex size-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-xl sm:size-14",
+            isActive && "opacity-100",
+          )}
+        >
+          {isActive ? (
+            <Pause className="size-5 fill-current" />
+          ) : (
+            <Play className="size-5 fill-current translate-x-[1px]" />
+          )}
+        </motion.div>
+
+        {featured && (
+          <div className="absolute left-6 top-6">
+            <Badge className="bg-primary/90 text-primary-foreground hover:bg-primary">
+              Em destaque
+            </Badge>
+          </div>
+        )}
+
+        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-3 p-5 sm:p-7">
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="secondary"
+              className="border border-border/40 bg-background/60 text-[0.65rem] uppercase tracking-[0.14em] backdrop-blur"
+            >
+              {CATEGORY_LABELS[track.category]}
+            </Badge>
+            <span className="font-sans text-xs text-muted-foreground">
+              {track.year} · {formatDuration(track.duration)}
+            </span>
+          </div>
+          <p
+            className={cn(
+              "font-display leading-tight text-foreground",
+              featured ? "text-3xl sm:text-5xl" : "text-xl sm:text-2xl",
+            )}
+          >
             {track.title}
           </p>
-          <Badge variant="secondary" className="shrink-0 text-[0.65rem] uppercase">
-            {CATEGORY_LABELS[track.category]}
-          </Badge>
         </div>
-        <p className="font-sans text-xs text-muted-foreground">
-          {track.year} · {formatDuration(track.duration)}
-        </p>
       </div>
-    </button>
+    </motion.button>
   )
 }

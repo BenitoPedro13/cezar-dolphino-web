@@ -1,16 +1,11 @@
-import { Heart } from "lucide-react"
+import { Heart, Sparkles } from "lucide-react"
 
+import { Reveal } from "@/components/motion/Reveal"
+import { SectionLabel } from "@/components/motion/SectionLabel"
 import { PixCard } from "@/components/sections/PixCard"
 import { StreamingLinks } from "@/components/sections/StreamingLinks"
 import { siteConfig } from "@/data/site-config"
 import { buttonVariants } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 export function SupportSection() {
@@ -21,44 +16,70 @@ export function SupportSection() {
   return (
     <section
       id="apoie"
-      className="scroll-mt-24 border-b border-border/70 bg-card/40"
+      className="relative scroll-mt-24 overflow-hidden border-b border-border/60 bg-background"
     >
-      <div className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10 sm:py-24">
-        <p className="font-sans text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Apoie
-        </p>
-        <h2 className="mt-3 font-display text-4xl">Apoie o artista</h2>
-        <p className="mt-3 max-w-2xl font-sans text-sm text-muted-foreground">
-          Cada apoio ajuda a manter novas gravações, ensaios e shows acontecendo.
-          Escolha a forma que fizer mais sentido para você.
-        </p>
+      <div className="pointer-events-none absolute right-0 top-0 -z-0 size-[40vw] rounded-full bg-primary/10 blur-[120px]" />
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <PixCard />
-          <Card className="border-border/80 bg-card/60">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 font-display text-2xl italic">
-                <Heart className="size-5 text-primary" />
-                Ko-fi
-              </CardTitle>
-              <CardDescription>
-                Apoie com qualquer valor e deixe uma mensagem.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+      <div className="relative mx-auto w-full max-w-7xl px-6 py-24 sm:px-10 sm:py-32">
+        <SectionLabel index="05" label="Apoie" />
+
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <Reveal>
+            <h2 className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.9] tracking-tight">
+              Mantenha
+              <span className="block italic text-primary">o quarto aceso.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="max-w-md font-serif text-base italic text-muted-foreground sm:text-lg">
+              Cada apoio ajuda a manter novas gravações, ensaios e shows
+              acontecendo. Escolha a forma que fizer mais sentido.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 grid gap-5 md:grid-cols-2">
+          <Reveal direction="left">
+            <PixCard />
+          </Reveal>
+
+          <Reveal direction="right" delay={0.1}>
+            <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card/50 p-8 backdrop-blur transition-colors hover:border-primary/50">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary">
+                    <Heart className="size-5" />
+                  </span>
+                  <div className="font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    Ko-fi
+                  </div>
+                </div>
+                <h3 className="mt-6 font-display text-3xl italic text-foreground sm:text-4xl">
+                  Apoie com o valor que fizer sentido.
+                </h3>
+                <p className="mt-3 font-sans text-sm text-muted-foreground">
+                  Deixe uma mensagem ou só um café — tudo conta.
+                </p>
+              </div>
               <a
                 href={kofiUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={cn(buttonVariants(), "w-full sm:w-auto")}
+                className={cn(
+                  buttonVariants(),
+                  "mt-8 h-12 w-fit gap-2 rounded-full px-7 text-sm uppercase tracking-[0.14em]",
+                )}
               >
+                <Sparkles className="size-4" />
                 Apoiar no Ko-fi
               </a>
-            </CardContent>
-          </Card>
+            </div>
+          </Reveal>
         </div>
 
-        <StreamingLinks />
+        <Reveal delay={0.2}>
+          <StreamingLinks />
+        </Reveal>
       </div>
     </section>
   )

@@ -1,17 +1,10 @@
 "use client"
 
-import { Copy } from "lucide-react"
+import { Copy, QrCode } from "lucide-react"
 import { toast } from "sonner"
 
 import { siteConfig } from "@/data/site-config"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 
 export function PixCard() {
   async function copyPixKey() {
@@ -28,22 +21,34 @@ export function PixCard() {
   }
 
   return (
-    <Card className="border-border/80 bg-card/60">
-      <CardHeader>
-        <CardTitle className="font-display text-2xl italic">PIX</CardTitle>
-        <CardDescription>
-          Gostou do que ouviu? Me pague um café.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <p className="rounded-md border border-border/80 bg-background/50 px-3 py-2 font-mono text-sm text-foreground break-all">
+    <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-border/60 bg-card/50 p-8 backdrop-blur transition-colors hover:border-primary/50">
+      <div>
+        <div className="flex items-center gap-3">
+          <span className="inline-flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <QrCode className="size-5" />
+          </span>
+          <div className="font-sans text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            PIX
+          </div>
+        </div>
+        <h3 className="mt-6 font-display text-3xl italic text-foreground sm:text-4xl">
+          Gostou? Me pague um café.
+        </h3>
+        <p className="mt-3 font-sans text-sm text-muted-foreground">
+          Use a chave abaixo no seu app de pagamentos.
+        </p>
+        <p className="mt-5 break-all rounded-xl border border-border/60 bg-background/60 px-4 py-3 font-mono text-sm text-foreground">
           {siteConfig.pixKey}
         </p>
-        <Button type="button" onClick={copyPixKey} className="w-full gap-2 sm:w-auto">
-          <Copy className="size-4" />
-          Copiar chave PIX
-        </Button>
-      </CardContent>
-    </Card>
+      </div>
+      <Button
+        type="button"
+        onClick={copyPixKey}
+        className="mt-8 h-12 w-fit gap-2 rounded-full px-7 text-sm uppercase tracking-[0.14em]"
+      >
+        <Copy className="size-4" />
+        Copiar chave PIX
+      </Button>
+    </div>
   )
 }
