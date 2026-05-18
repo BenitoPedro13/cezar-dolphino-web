@@ -28,11 +28,21 @@ export interface Show {
   status: "upcoming" | "sold-out" | "past" | "tba"
 }
 
+export interface Influence {
+  id: string
+  name: string
+  category: "musica" | "cinema" | "literatura"
+  note?: string
+}
+
 export interface SiteConfig {
   artistName: string
   tagline: string
   shortBio: string
+  longBio: string
   pullQuote: string
+  pressKitUrl?: string
+  portraitImage: string
   pixKey: string
   kofiUsername: string
   contactEmail: string
