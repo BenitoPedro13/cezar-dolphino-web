@@ -2,6 +2,7 @@ import { ScrollProgress } from "@/components/motion/ScrollProgress"
 import { AppChrome } from "@/components/layout/AppChrome"
 import { Footer } from "@/components/layout/Footer"
 import { Header } from "@/components/layout/Header"
+import { TopGridBackdrop } from "@/components/layout/TopGridBackdrop"
 import { AboutSection } from "@/components/sections/AboutSection"
 import { ContactSection } from "@/components/sections/ContactSection"
 import { HeroSection } from "@/components/sections/HeroSection"
@@ -19,11 +20,13 @@ export default function Page() {
       <ScrollProgress />
       <Header />
       <main className="min-h-svh bg-background text-foreground">
-        <HeroSection />
-        <MarqueeStrip />
-        <MusicSection />
-        <MoonPhaseSection />
-        <AboutSection />
+        <TopGridBackdrop>
+          <HeroSection />
+          <MarqueeStrip />
+          <MusicSection />
+          <MoonPhaseSection />
+          <AboutSection />
+        </TopGridBackdrop>
         <InfluencesSection />
         <ShowsSection />
         <SupportSection />

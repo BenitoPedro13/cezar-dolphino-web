@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from "motion/react"
 import { useRef } from "react"
 
 import { AboutExtendedBio } from "@/components/sections/AboutExtendedBio"
-import { GridBackground } from "@/components/layout/GridBackground"
 import { EqBarsDeco } from "@/components/motion/EqBars"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal } from "@/components/motion/Reveal"
@@ -24,9 +23,8 @@ export function AboutSection() {
     <section
       id="sobre"
       ref={ref}
-      className="relative scroll-mt-24 overflow-hidden bg-background"
+      className="relative scroll-mt-24 overflow-hidden"
     >
-      <GridBackground />
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
         <div className="grid items-end gap-x-10 gap-y-6 lg:grid-cols-12">
           <div className="lg:col-span-3">

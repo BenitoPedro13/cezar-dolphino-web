@@ -1,5 +1,3 @@
-"use client"
-
 import { JiggleText } from "@/components/motion/JiggleText"
 import { siteConfig } from "@/data/site-config"
 

@@ -3,7 +3,6 @@
 import { ArrowDownLeft, CalendarDays } from "lucide-react"
 import { motion } from "motion/react"
 
-import { GridBackground } from "@/components/layout/GridBackground"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal"
 import { ScrollingDisplay } from "@/components/motion/ScrollingDisplay"
@@ -18,7 +17,6 @@ export function ShowsSection() {
       id="shows"
       className="relative scroll-mt-24 overflow-hidden bg-background"
     >
-      <GridBackground />
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
         <div className="grid items-end gap-x-10 gap-y-6 lg:grid-cols-12">
           <div className="lg:col-span-3">

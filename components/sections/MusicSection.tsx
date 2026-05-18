@@ -3,7 +3,6 @@
 import { ArrowDownLeft } from "lucide-react"
 import { motion } from "motion/react"
 
-import { GridBackground } from "@/components/layout/GridBackground"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal } from "@/components/motion/Reveal"
 import { ScrollingDisplay } from "@/components/motion/ScrollingDisplay"
@@ -14,10 +13,8 @@ export function MusicSection() {
   return (
     <section
       id="musica"
-      className="relative scroll-mt-24 overflow-hidden bg-background"
+      className="relative scroll-mt-24 overflow-hidden"
     >
-      <GridBackground />
-
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
         <div className="grid items-start gap-x-10 gap-y-8 lg:grid-cols-[1fr_2fr_auto] lg:gap-x-16">
           <div className="lg:pt-4">

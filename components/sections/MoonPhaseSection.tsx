@@ -4,7 +4,7 @@ import { siteConfig } from "@/data/site-config"
 
 export function MoonPhaseSection() {
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section className="relative overflow-hidden">
       <div className="relative mx-auto w-full max-w-7xl px-6 py-20 sm:px-10 sm:py-28">
         <Reveal>
           <p className="text-center font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">

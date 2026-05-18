@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "motion/react"
+import { motion, useScroll, useTransform } from "motion/react"
 import { ArrowDown } from "lucide-react"
+import { useRef } from "react"
 
-import { GridBackground } from "@/components/layout/GridBackground"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { PolaroidFan } from "@/components/motion/PolaroidFan"
 import { Squiggle } from "@/components/motion/Squiggle"
@@ -15,14 +15,26 @@ const SCROLL_TEXT = "SCROLL TO EXPLORE · SCROLL TO EXPLORE · "
 
 export function HeroSection() {
   const [firstName, lastName] = siteConfig.artistName.split(" ")
+  const ref = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  })
+  const nameOpacity = useTransform(scrollYProgress, [0, 0.45, 0.85], [1, 0.18, 0.04])
+  const nameY = useTransform(scrollYProgress, [0, 1], [0, -120])
+  const nameScale = useTransform(scrollYProgress, [0, 1], [1, 0.88])
+  const nameFilter = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["blur(0px)", "blur(8px)"],
+  )
 
   return (
     <section
+      ref={ref}
       id="hero"
-      className="relative isolate flex min-h-svh w-full items-center justify-center overflow-hidden bg-background"
+      className="relative isolate flex min-h-svh w-full items-center justify-center overflow-hidden"
     >
-      <GridBackground />
-
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-30"
@@ -79,7 +91,15 @@ export function HeroSection() {
       </motion.div>
 
       <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 px-6 py-32 text-center sm:px-10">
-        <h1 className="font-display font-bold leading-[0.85] tracking-[-0.06em] text-foreground">
+        <motion.h1
+          style={{
+            opacity: nameOpacity,
+            y: nameY,
+            scale: nameScale,
+            filter: nameFilter,
+          }}
+          className="font-display font-bold leading-[0.85] tracking-[-0.06em] text-foreground"
+        >
           <span className="block overflow-visible">
             <JiggleText
               text={firstName}
@@ -101,7 +121,7 @@ export function HeroSection() {
               ®
             </sup>
           </span>
-        </h1>
+        </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}

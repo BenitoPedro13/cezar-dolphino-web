@@ -1,6 +1,5 @@
 import { Heart, Sparkles } from "lucide-react"
 
-import { GridBackground } from "@/components/layout/GridBackground"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal } from "@/components/motion/Reveal"
 import { PixCard } from "@/components/sections/PixCard"
@@ -19,7 +18,6 @@ export function SupportSection() {
       id="apoie"
       className="relative scroll-mt-24 overflow-hidden bg-background"
     >
-      <GridBackground />
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
         <div className="grid items-end gap-x-10 gap-y-6 lg:grid-cols-12">
           <div className="lg:col-span-3">
