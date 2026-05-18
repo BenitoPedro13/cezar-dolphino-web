@@ -21,6 +21,15 @@ export const shows: Show[] = [
     status: "tba",
   },
   {
+    id: "bh-nov-2025",
+    date: "2025-11-22",
+    venue: "Praça da Liberdade",
+    city: "Belo Horizonte",
+    state: "MG",
+    country: "Brasil",
+    status: "sold-out",
+  },
+  {
     id: "rio-jun-2025",
     date: "2025-06-20",
     venue: "Audio Rebel",
@@ -29,8 +38,34 @@ export const shows: Show[] = [
     country: "Brasil",
     status: "past",
   },
+  {
+    id: "rio-abr-2025",
+    date: "2025-04-12",
+    venue: "Teatro Rival Petrobras",
+    city: "Rio de Janeiro",
+    state: "RJ",
+    country: "Brasil",
+    status: "past",
+  },
 ]
 
-export const upcomingShows = shows.filter(
-  (show) => show.status === "upcoming" || show.status === "tba",
+function sortByDateAsc(list: Show[]) {
+  return [...list].sort((a, b) => a.date.localeCompare(b.date))
+}
+
+function sortByDateDesc(list: Show[]) {
+  return [...list].sort((a, b) => b.date.localeCompare(a.date))
+}
+
+export const upcomingShows = sortByDateAsc(
+  shows.filter(
+    (show) =>
+      show.status === "upcoming" ||
+      show.status === "tba" ||
+      show.status === "sold-out",
+  ),
+)
+
+export const pastShows = sortByDateDesc(
+  shows.filter((show) => show.status === "past"),
 )
