@@ -1,28 +1,24 @@
 import Image from "next/image"
 import { Globe, Music2, Play } from "lucide-react"
 
+import { siteConfig } from "@/data/site-config"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const SOCIAL_LINKS = [
-  {
-    href: "https://instagram.com",
-    label: "Instagram",
-    icon: Globe,
-  },
-  {
-    href: "https://youtube.com",
-    label: "YouTube",
-    icon: Play,
-  },
-  {
-    href: "https://open.spotify.com",
-    label: "Spotify",
-    icon: Music2,
-  },
+const SOCIAL_ITEMS = [
+  { key: "instagram" as const, label: "Instagram", icon: Globe },
+  { key: "youtube" as const, label: "YouTube", icon: Play },
+  { key: "spotify" as const, label: "Spotify", icon: Music2 },
+  { key: "tiktok" as const, label: "TikTok", icon: Globe },
 ]
 
 export function HeroSection() {
+  const socialLinks = SOCIAL_ITEMS.flatMap((item) => {
+    const href = siteConfig.social[item.key]
+    if (!href) return []
+    return [{ ...item, href }]
+  })
+
   return (
     <section
       id="hero"
@@ -43,10 +39,10 @@ export function HeroSection() {
           Cinema Bedroom
         </p>
         <h1 className="mt-4 max-w-3xl font-display text-5xl italic tracking-wide text-foreground sm:text-7xl">
-          Cezar Dolphino
+          {siteConfig.artistName}
         </h1>
         <p className="mt-4 max-w-xl font-sans text-sm text-foreground/85">
-          MPB · Soul · Jazz — Rio de Janeiro
+          {siteConfig.tagline}
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a href="#musica" className={cn(buttonVariants(), "gap-2")}>
@@ -58,23 +54,25 @@ export function HeroSection() {
           </a>
         </div>
 
-        <div className="mt-8 flex items-center gap-3">
-          {SOCIAL_LINKS.map((item) => {
-            const Icon = item.icon
-            return (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={item.label}
-                className="rounded-md border border-border/80 bg-card/40 p-2.5 text-muted-foreground transition-colors hover:text-primary"
-              >
-                <Icon className="size-4" />
-              </a>
-            )
-          })}
-        </div>
+        {socialLinks.length > 0 && (
+          <div className="mt-8 flex items-center gap-3">
+            {socialLinks.map((item) => {
+              const Icon = item.icon
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={item.label}
+                  className="rounded-md border border-border/80 bg-card/40 p-2.5 text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Icon className="size-4" />
+                </a>
+              )
+            })}
+          </div>
+        )}
 
         <a
           href="#musica"

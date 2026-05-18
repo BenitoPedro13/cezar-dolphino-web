@@ -1,3 +1,5 @@
+import { siteConfig } from "@/data/site-config"
+
 const NAV_ITEMS = [
   { href: "#musica", label: "Musica" },
   { href: "#sobre", label: "Sobre" },
@@ -14,7 +16,7 @@ export function Header() {
           href="#hero"
           className="shrink-0 font-display text-xl tracking-[0.08em] text-foreground transition-colors hover:text-primary"
         >
-          Cezar Dolphino
+          {siteConfig.artistName}
         </a>
 
         <nav
