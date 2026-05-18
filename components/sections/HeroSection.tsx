@@ -4,8 +4,8 @@ import { motion } from "motion/react"
 import { ArrowDown } from "lucide-react"
 
 import { GridBackground } from "@/components/layout/GridBackground"
-import { Polaroid } from "@/components/layout/Polaroid"
 import { JiggleText } from "@/components/motion/JiggleText"
+import { PolaroidFan } from "@/components/motion/PolaroidFan"
 import { Squiggle } from "@/components/motion/Squiggle"
 import { siteConfig } from "@/data/site-config"
 
@@ -33,35 +33,47 @@ export function HeroSection() {
       />
 
       <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: -30, rotate: -10 }}
+        animate={{ opacity: 1, x: 0, rotate: -4 }}
         transition={{ duration: 1, delay: 0.9, ease: EASE }}
         className="absolute left-4 top-24 z-10 w-32 sm:left-10 sm:top-32 sm:w-40 lg:w-48"
       >
-        <Polaroid
-          src={siteConfig.portraitImage}
-          alt="Cezar Dolphino ao vivo"
+        <PolaroidFan
+          primary={{
+            src: siteConfig.portraitImage,
+            alt: "Cezar Dolphino ao vivo",
+          }}
+          extras={[
+            { src: siteConfig.portraitImage, alt: "Backstage" },
+            { src: siteConfig.portraitImage, alt: "Sessão acústica" },
+          ]}
           variant="vertical"
           caption="Empowering Listeners"
-          withSquiggle
-          squiggleDelay={1.6}
-          delay={0.9}
           rotate={-4}
+        />
+        <Squiggle
+          delay={1.6}
+          className="pointer-events-none absolute -right-12 -top-6 size-32 text-foreground/80 sm:-right-16 sm:size-40"
         />
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, x: 30, rotate: 10 }}
+        animate={{ opacity: 1, x: 0, rotate: 3 }}
         transition={{ duration: 1, delay: 1.2, ease: EASE }}
         className="absolute right-4 top-1/3 z-10 hidden w-44 sm:right-10 sm:block sm:w-52 lg:w-64"
       >
-        <Polaroid
-          src={siteConfig.portraitImage}
-          alt="Cezar Dolphino retrato"
+        <PolaroidFan
+          primary={{
+            src: siteConfig.portraitImage,
+            alt: "Cezar Dolphino retrato",
+          }}
+          extras={[
+            { src: siteConfig.portraitImage, alt: "Estúdio" },
+            { src: siteConfig.portraitImage, alt: "Palco" },
+          ]}
           variant="wide"
           caption="Captivating Audiences"
-          delay={1.2}
           rotate={3}
         />
       </motion.div>

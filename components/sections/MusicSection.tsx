@@ -3,8 +3,10 @@
 import { ArrowDownLeft } from "lucide-react"
 import { motion } from "motion/react"
 
+import { GridBackground } from "@/components/layout/GridBackground"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal } from "@/components/motion/Reveal"
+import { ScrollingDisplay } from "@/components/motion/ScrollingDisplay"
 import { TrackTable } from "@/components/player/TrackTable"
 import { tracks } from "@/data/tracks"
 
@@ -14,50 +16,61 @@ export function MusicSection() {
       id="musica"
       className="relative scroll-mt-24 overflow-hidden bg-background"
     >
+      <GridBackground />
+
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
+        <div className="grid items-start gap-x-10 gap-y-8 lg:grid-cols-[1fr_2fr_auto] lg:gap-x-16">
+          <div className="lg:pt-4">
             <Reveal>
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                (Catálogo · {tracks.length}{" "}
+                ({tracks.length}{" "}
                 {tracks.length === 1 ? "faixa" : "faixas"})
               </p>
             </Reveal>
 
-            <h2 className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2 font-display text-[clamp(3rem,11vw,9rem)] font-bold leading-[0.85] tracking-[-0.05em]">
+            <h2 className="mt-4 font-display text-[clamp(2.5rem,8vw,7rem)] font-bold leading-[0.85] tracking-[-0.05em] text-foreground/30">
               <JiggleText
                 text="Let's"
-                className="text-foreground/30"
-                maxRotate={8}
+                className="block"
+                maxRotate={9}
               />
               <JiggleText
                 text="Explore"
-                className="text-foreground/30"
-                stagger={0.045}
-                maxRotate={-7}
-              />
-              <JiggleText text="Our" className="text-foreground" maxRotate={9} />
-              <JiggleText
-                text="Music"
-                className="text-foreground"
-                stagger={0.045}
+                className="block"
                 maxRotate={-8}
+                stagger={0.045}
               />
             </h2>
           </div>
 
-          <div className="flex items-start justify-end lg:col-span-5">
+          <div>
+            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-bold leading-[0.85] tracking-[-0.05em]">
+              <JiggleText
+                text="Our"
+                className="block text-foreground"
+                maxRotate={10}
+              />
+              <JiggleText
+                text="Music"
+                className="block text-foreground"
+                maxRotate={-9}
+                stagger={0.045}
+              />
+            </h2>
+          </div>
+
+          <div className="flex shrink-0 lg:justify-end">
             <motion.a
-              href="#shows"
+              href="#sobre"
               initial={{ opacity: 0, scale: 0.8, rotate: -20 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               whileHover={{ scale: 1.08, rotate: -8 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }}
-              aria-label="Próxima seção: shows"
+              aria-label="Próxima seção: sobre"
               data-cursor-label="Next"
-              className="group relative inline-flex size-24 items-center justify-center overflow-hidden rounded-full border border-border text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background sm:size-32"
+              className="group relative inline-flex size-20 items-center justify-center overflow-hidden rounded-full border border-border text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background sm:size-24 lg:size-28"
             >
               <motion.span
                 animate={{ rotate: 360 }}
@@ -67,7 +80,7 @@ export function MusicSection() {
                 <svg viewBox="0 0 100 100" className="size-full">
                   <defs>
                     <path
-                      id="cta-circle"
+                      id="cta-circle-music"
                       d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
                     />
                   </defs>
@@ -77,13 +90,13 @@ export function MusicSection() {
                     letterSpacing="3"
                     className="fill-foreground/70 group-hover:fill-background/80"
                   >
-                    <textPath href="#cta-circle">
-                      NEXT · SHOWS · NEXT · SHOWS ·{" "}
+                    <textPath href="#cta-circle-music">
+                      NEXT · ABOUT · NEXT · ABOUT ·{" "}
                     </textPath>
                   </text>
                 </svg>
               </motion.span>
-              <ArrowDownLeft className="relative size-7 transition-transform group-hover:translate-x-[-3px] group-hover:translate-y-[3px] sm:size-9" />
+              <ArrowDownLeft className="relative size-6 transition-transform group-hover:translate-x-[-3px] group-hover:translate-y-[3px] sm:size-7" />
             </motion.a>
           </div>
         </div>
@@ -99,6 +112,11 @@ export function MusicSection() {
           </p>
         </Reveal>
       </div>
+
+      <ScrollingDisplay
+        text="SESSIONS · ARE · CURRENTLY · OPEN ·"
+        className="absolute inset-x-0 bottom-10 -z-0 select-none opacity-90"
+      />
     </section>
   )
 }

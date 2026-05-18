@@ -7,6 +7,7 @@ import { ContactSection } from "@/components/sections/ContactSection"
 import { HeroSection } from "@/components/sections/HeroSection"
 import { InfluencesSection } from "@/components/sections/InfluencesSection"
 import { MarqueeStrip } from "@/components/sections/MarqueeStrip"
+import { MoonPhaseSection } from "@/components/sections/MoonPhaseSection"
 import { MusicSection } from "@/components/sections/MusicSection"
 import { NewsletterSection } from "@/components/sections/NewsletterSection"
 import { ShowsSection } from "@/components/sections/ShowsSection"
@@ -21,6 +22,7 @@ export default function Page() {
         <HeroSection />
         <MarqueeStrip />
         <MusicSection />
+        <MoonPhaseSection />
         <AboutSection />
         <InfluencesSection />
         <ShowsSection />

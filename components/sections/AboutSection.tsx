@@ -5,9 +5,11 @@ import { motion, useScroll, useTransform } from "motion/react"
 import { useRef } from "react"
 
 import { AboutExtendedBio } from "@/components/sections/AboutExtendedBio"
+import { GridBackground } from "@/components/layout/GridBackground"
+import { EqBarsDeco } from "@/components/motion/EqBars"
 import { JiggleText } from "@/components/motion/JiggleText"
 import { Reveal } from "@/components/motion/Reveal"
-import { Squiggle } from "@/components/motion/Squiggle"
+import { ScribbleUnderline, Squiggle } from "@/components/motion/Squiggle"
 import { siteConfig } from "@/data/site-config"
 
 export function AboutSection() {
@@ -24,6 +26,7 @@ export function AboutSection() {
       ref={ref}
       className="relative scroll-mt-24 overflow-hidden bg-background"
     >
+      <GridBackground />
       <div className="relative mx-auto w-full max-w-7xl px-6 py-32 sm:px-10 sm:py-40">
         <div className="grid items-end gap-x-10 gap-y-6 lg:grid-cols-12">
           <div className="lg:col-span-3">
@@ -83,14 +86,43 @@ export function AboutSection() {
 
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                (Bio · short)
-              </p>
+              <div className="flex items-center gap-3">
+                <EqBarsDeco />
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
+                  (Bio · short)
+                </p>
+              </div>
             </Reveal>
 
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-2xl font-sans text-2xl leading-snug text-foreground sm:text-3xl">
-                {siteConfig.shortBio}
+                Cezar Dolphino canta entre o calor do vinil e a luz de vela de
+                um quarto de cinema, com{" "}
+                <span className="relative inline-block">
+                  voz
+                  <ScribbleUnderline
+                    delay={0.4}
+                    className="absolute -bottom-2 left-0 h-4 w-full text-accent"
+                  />
+                </span>
+                <span className="relative mx-2 inline-flex size-7 -translate-y-1 items-center justify-center overflow-hidden rounded-full border border-border bg-card align-middle sm:size-8">
+                  <Image
+                    src={siteConfig.portraitImage}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="32px"
+                  />
+                </span>
+                e{" "}
+                <span className="relative inline-block">
+                  violão
+                  <ScribbleUnderline
+                    delay={0.6}
+                    className="absolute -bottom-2 left-0 h-4 w-full text-accent"
+                  />
+                </span>
+                {" "}construindo salas íntimas onde o ouvinte entra devagar — e fica.
               </p>
             </Reveal>
 
